@@ -1,0 +1,31 @@
+# Deployments are a higher-level abstraction that manage Replica Sets and provide declarative updates to Pods along with many other useful features.
+# Deployments will create and manage Replica Sets (and Pods) for you.
+
+# kubectl apply -f deplyment.yml
+# kubectl get deployments | kubectl get deploy
+# kubectl describe deploy webapp
+
+# kubectl rollout status deploy webapp
+# kubectl rollout history deploy webapp
+# kubectl rollout undo deploy webapp --to-revision=1 # you can specify the revision number to roll back to
+
+# kubectl delete deploy webapp
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  selector:
+    matchLabels:
+      app: webapp # this label could be anything, as long as it matches the service label
+  replicas: 2
+  minReadySeconds: 30 # time in seconds a pod should be ready without any of its container crashing, to be considered available. It will delay the rollout of the deployment
+  template:
+    metadata:
+      labels: # this label matches the selector in the service
+        app: webapp # this label could be anything, as long as it matches the service selector
+    spec:
+      containers:
+        - name: webapp
+          image: richardchesterwood/k8s-fleetman-webapp-angular:release0
