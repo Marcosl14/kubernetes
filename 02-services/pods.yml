@@ -1,0 +1,32 @@
+# kubectl apply -f <file-name>.yml | in this case -> kubectl apply -f pods.yml
+# kubectl get pods | kubectl get po
+# kubectl exec -it webapp -- /bin/sh
+# kubectl describe pod webapp
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp:0
+  labels: # this label matches the selector in the service
+    app: webapp # this label could be anything, as long as it matches the service selector
+    release: "0"
+spec:
+  containers:
+    - name: webapp
+      image: richardchesterwood/k8s-fleetman-webapp-angular:release0
+
+
+# ------
+# To update the pod to a new version, we can change the label and image version (like blue green deployment)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp:0-5
+  labels: # this label matches the selector in the service
+    app: webapp # this label could be anything, as long as it matches the service selector
+    release: "0-5"
+spec:
+  containers:
+    - name: webapp
+      image: richardchesterwood/k8s-fleetman-webapp-angular:release0-5

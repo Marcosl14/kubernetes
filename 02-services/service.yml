@@ -1,0 +1,18 @@
+# kubectl apply -f service.yml
+# kubectl get services | kubectl get svc
+# kubectl describe service webapp
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  # this defines wich pods will be targeted by this service
+  selector:
+    app: webapp # this label could be anything, as long as it matches the pod label
+    release: "0"
+  ports:
+    - name: http
+      port: 80 # port exposed by the service
+      nodePort: 30080 # port exposed on each node
+  type: NodePort # exposes the node port to the external world

@@ -1,0 +1,5 @@
+# kubectl apply -f .
+# kubectl get all
+
+# kubectl delete po --all
+# kubectl delete svc --all

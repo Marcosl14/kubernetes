@@ -1,0 +1,18 @@
+# kubectl apply -f <file-name>.yml | in this case -> kubectl apply -f pod.yml
+# kubectl get pods | kubectl get po | kubectl get all
+# kubectl exec -it alpine -- /bin/sh
+# kubectl exec alpine -- ls
+# kubectl describe pod alpine
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine
+  labels:
+    app: demo
+spec:
+  containers:
+    - name: alpine-container
+      image: alpine:latest
+      command: ["/bin/sh"]
+      args: ["-c", "sleep infinity"]
