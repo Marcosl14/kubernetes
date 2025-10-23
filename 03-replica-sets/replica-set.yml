@@ -1,0 +1,21 @@
+# kubectl apply -f replica-set.yml
+# kubectl get replicasets | kubectl get rs
+# kubectl describe rs webapp
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: webapp
+spec:
+  selector:
+    matchLabels:
+      app: webapp # this label could be anything, as long as it matches the service label
+  replicas: 2
+  template:
+    metadata:
+      labels: # this label matches the selector in the service
+        app: webapp # this label could be anything, as long as it matches the service selector
+    spec:
+      containers:
+        - name: webapp
+          image: richardchesterwood/k8s-fleetman-webapp-angular:release0
