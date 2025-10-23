@@ -1,6 +1,11 @@
+# Replica Sets are used to ensure that a specified number of pod replicas are running at any given time.
+# We don´t usually create Replica Sets directly, but rather through Deployments.
+
 # kubectl apply -f replica-set.yml
 # kubectl get replicasets | kubectl get rs
 # kubectl describe rs webapp
+
+# kubectl delete rs webapp
 
 apiVersion: apps/v1
 kind: ReplicaSet

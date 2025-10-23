@@ -1,6 +1,10 @@
+# Service to expose the webapp replica set
+
 # kubectl apply -f service.yml
 # kubectl get services | kubectl get svc
 # kubectl describe service webapp
+
+# kubectl delete svc webapp
 
 apiVersion: v1
 kind: Service

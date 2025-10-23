@@ -1,8 +1,13 @@
+# Pod is the smallest deployable unit in Kubernetes, representing a single instance of a running process in a cluster.
+# We usually don´t create Pods directly, but rather through higher-level abstractions like Replica Sets or Deployments.
+
 # kubectl apply -f <file-name>.yml | in this case -> kubectl apply -f pod.yml
 # kubectl get pods | kubectl get po | kubectl get all
 # kubectl exec -it alpine -- /bin/sh
 # kubectl exec alpine -- ls
 # kubectl describe pod alpine
+
+# kubectl delete pod alpine
 
 apiVersion: v1
 kind: Pod
