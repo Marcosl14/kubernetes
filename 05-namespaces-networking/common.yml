@@ -1,0 +1,8 @@
+# kubectl get namespaces | kubectl get ns
+# kubectl get all -n kube-system
+
+# kubectl get po -n kube-system
+
+# kubectl describe svc kube-dns -n kube-system # allways you are in a different namespace than default, you need to specify it
+
+# kubectl delete -f .

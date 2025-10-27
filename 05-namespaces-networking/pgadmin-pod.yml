@@ -1,0 +1,26 @@
+# Open web browser and access pgAdmin4 at http://localhost:31337/
+# Credentials are the env vars
+# DB connection inside pgAdmin4:
+# Host: postgres
+# Port: 5432
+# Maintenance DB: mydb
+# Username: postgres
+# Password: mysecretpw
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pgadmin
+  labels:
+    app: pgadmin
+spec:
+  containers:
+    - name: pgadmin
+      image: dpage/pgadmin4:7
+      env:
+        - name: PGADMIN_DEFAULT_EMAIL
+          value: admin@admin.com
+        - name: PGADMIN_DEFAULT_PASSWORD
+          value: admin
+      ports:
+        - containerPort: 80

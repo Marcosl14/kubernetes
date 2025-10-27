@@ -1,6 +1,7 @@
 # kubectl apply -f .
 # kubectl get all
 
-# kubectl delete po --all
-# kubectl delete rs --all
+# kubectl delete deploy --all
 # kubectl delete svc --all
+# kubectl delete rs --all
+# kubectl delete po --all

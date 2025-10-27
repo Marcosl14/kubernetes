@@ -1,7 +1,7 @@
 # Deployments are a higher-level abstraction that manage Replica Sets and provide declarative updates to Pods along with many other useful features.
 # Deployments will create and manage Replica Sets (and Pods) for you.
 
-# kubectl apply -f deplyment.yml
+# kubectl apply -f deployment.yml
 # kubectl get deployments | kubectl get deploy
 # kubectl describe deploy webapp
 
