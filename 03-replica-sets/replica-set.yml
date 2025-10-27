@@ -4,6 +4,7 @@
 # kubectl apply -f replica-set.yml
 # kubectl get replicasets | kubectl get rs
 # kubectl describe rs webapp
+# kubectl logs webapp-<pod-id>
 
 # kubectl delete rs webapp
 

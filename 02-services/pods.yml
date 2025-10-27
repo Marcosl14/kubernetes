@@ -5,6 +5,7 @@
 # kubectl get pods | kubectl get po
 # kubectl exec -it webapp -- /bin/sh
 # kubectl describe pod webapp
+# kubectl logs webapp-<pod-id>
 
 # kubectl delete po webapp
 

@@ -6,6 +6,7 @@
 # kubectl exec -it alpine -- /bin/sh
 # kubectl exec alpine -- ls
 # kubectl describe pod alpine
+# kubectl logs alpine
 
 # kubectl delete pod alpine
 
