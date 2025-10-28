@@ -1,4 +1,4 @@
-# kubectl exec -it postgres -- /bin/bash
+# kubectl exec -it postgres-<pod-id> -- /bin/bash
 # psql postgres -d mydb
 # \l -> List databases
 # "CREATE TABLE IF NOT EXISTS personas (id SERIAL PRIMARY KEY, nombre VARCHAR(100), email VARCHAR(100));"
@@ -32,3 +32,11 @@ spec:
               value: mydb
           ports:
             - containerPort: 5432
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-data
+          hostPath:
+            path: /data/postgres
+            type: DirectoryOrCreate
