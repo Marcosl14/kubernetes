@@ -1,0 +1,34 @@
+# kubectl exec -it postgres -- /bin/bash
+# psql postgres -d mydb
+# \l -> List databases
+# "CREATE TABLE IF NOT EXISTS personas (id SERIAL PRIMARY KEY, nombre VARCHAR(100), email VARCHAR(100));"
+# \dt -> List tables
+# \q -> Quit psql
+# exit -> Exit bash
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14
+          env:
+            - name: POSTGRES_PASSWORD
+              value: mysecretpw
+            - name: POSTGRES_DB
+              value: mydb
+          ports:
+            - containerPort: 5432
