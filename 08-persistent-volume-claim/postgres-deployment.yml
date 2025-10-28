@@ -35,8 +35,7 @@ spec:
           volumeMounts: # Postgres internal data directory
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
-      volumes: # Use Volume from host machine
+      volumes: # Use Persistent Volume Claim instead of hostPath -> See storage.yml
         - name: postgres-data
-          hostPath:
-            path: /data/postgres
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: postgres-pvc
