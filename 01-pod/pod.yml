@@ -7,6 +7,8 @@
 # kubectl exec alpine -- ls
 # kubectl describe pod alpine
 # kubectl logs alpine
+# kubectl get pod <pod-name> -o yaml | json
+# kubectl get pod <pod-name> -o yaml > <file-name>.yml
 
 # kubectl delete pod alpine
 
