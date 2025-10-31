@@ -1,0 +1,39 @@
+# kubectl rollout history deploy alpine-deployment | View the rollout history of the deployment
+# kubectl rollout history deploy alpine-deployment --revision=2 | View the rollout history of the deployment for a specific revision
+# kubectl rollout status deploy alpine-deployment | Check the status of the deployment rollout
+# kubectl rollout undo deploy alpine-deployment --to-revision=2 | Rollback to a specific revision of the deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine-deployment
+  labels:
+    app: demo
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate # Specifies the rolling update strategy | Other options include Recreate (which terminates all old pods and create new ones - not recommended for production)
+    rollingUpdate:
+      maxUnavailable: 1 # Maximum number of pods that can be unavailable during the update
+      maxSurge: 1 # Maximum number of pods that can be created above the desired number of pods during the update
+  minReadySeconds: 10 # Minimum number of seconds a pod should be ready before being considered available
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: alpine-container
+          image: alpine:latest
+          command: ["/bin/sh"]
+          args: ["-c", "sleep infinity"]
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

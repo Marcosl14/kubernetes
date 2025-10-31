@@ -1,0 +1,32 @@
+# kubectl get deploy alpine-deployment -n demo-namespace
+# kubectl get pod <pod-name> -n demo-namespace
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine-deployment
+  namespace: demo-namespace # Ensure this matches the namespace created in namespace.yml
+  labels:
+    app: demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: alpine-container
+          image: alpine:latest
+          command: ["/bin/sh"]
+          args: ["-c", "sleep infinity"]
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

@@ -1,0 +1,59 @@
+# kubectl apply -f .
+# kubectl get pod
+# kubectl exec -it <pod-name> -- bash
+# printenv
+# mysql -u admin -p kubernetes | Enter password: 12345
+# show databases;
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+    type: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      type: database
+  template:
+    metadata:
+      labels:
+        app: myapp
+        type: database
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql:5.7
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: rootpassword
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"

@@ -1,0 +1,18 @@
+# Config maps can be created from files:
+# .env with content:
+# MYSQL_ROOT_PASSWORD="rootpassword"
+# MYSQL_DATABASE="kubernetes"
+# MYSQL_USER="admin"
+# MYSQL_PASSWORD="12345
+# kubectl create configmap myapp --from-env-file=.env
+
+# Or Config maps can be created as declared below:
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myapp
+data:
+  MYSQL_ROOT_PASSWORD: "rootpassword"
+  MYSQL_DATABASE: "kubernetes"
+  MYSQL_USER: "admin"
+  MYSQL_PASSWORD: "12345"

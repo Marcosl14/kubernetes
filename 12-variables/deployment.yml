@@ -1,0 +1,74 @@
+# kubectl apply -f .
+# kubectl get pod
+# kubectl exec -it <pod-name> -- bash
+# printenv
+# mysql -u admin -p kubernetes | Enter password: 12345
+# show databases;
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+    type: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      type: database
+  template:
+    metadata:
+      labels:
+        app: myapp
+        type: database
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql:5.7
+          # 1st way to set environment variables
+          # env:
+          #   - name: MYSQL_ROOT_PASSWORD
+          #     value: "rootpassword"
+          #   - name: MYSQL_DATABASE
+          #     value: "kubernetes"
+          #   - name: MYSQL_USER
+          #     value: "admin"
+          #   - name: MYSQL_PASSWORD
+          #     value: "12345"
+          # 2nd way to set environment variables from ConfigMap
+          # envFrom:
+          #   - configMapRef:
+          #       name: myapp
+          # 3rd way to set environment variables from ConfigMap (specific variables) | This way we can choose which variables to import and rename if needed
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: myapp
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: myapp
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: myapp
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: myapp
+                  key: MYSQL_PASSWORD
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
