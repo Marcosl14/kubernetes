@@ -1,0 +1,35 @@
+# install metrics-server to monitor resource usage
+# minikube addons list
+# minikube addons enable metrics-server -p <cluster_name>
+# minikube addons list -p <cluster_name> # Verify metrics-server is enabled
+
+# kubectl top pods <pod_name> # Check resource usage of pods
+# kubectl top nodes <node_name> # Check resource usage of nodes
+
+# kubectl get pod <pod_name> -o wide | define in which node is pod deployed
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: demo-namespace # Ensure this matches the namespace created in namespace.yml
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: richardchesterwood/k8s-fleetman-webapp-angular:release0
+          resources:
+            requests: # Add resource requests | minimum resources required
+              memory: "64Mi"
+              cpu: "500m"
+            limits: # Add resource limits | if limit exceeded, container may be terminated
+              memory: "128Mi"
+              cpu: "2"

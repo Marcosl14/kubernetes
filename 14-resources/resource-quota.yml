@@ -1,0 +1,17 @@
+# This limits are applied at the namespace level
+# kubectl get quota -n <namespace_name> | View resource quotas in the namespace
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: webapp-quota
+  namespace: demo-namespace # This name should match the namespace used in deployment.yml
+  labels:
+    app: webapp
+spec:
+  hard:
+    pods: "10" # Maximum number of pods in the namespace
+    requests.cpu: "4" # Maximum total CPU requests for all pods
+    requests.memory: "8Gi" # Maximum total memory requests for all pods
+    limits.cpu: "8" # Maximum total CPU limits for all pods
+    limits.memory: "16Gi" # Maximum total memory limits for all pods

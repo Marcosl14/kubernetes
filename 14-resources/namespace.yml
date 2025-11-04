@@ -1,0 +1,8 @@
+# kubectl config set-context --current --namespace=demo-namespace | Sets the current context to use the demo-namespace by default
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-namespace # This name should match the namespace used in deployment.yml
+  labels:
+    app: webapp
