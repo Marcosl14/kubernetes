@@ -12,7 +12,7 @@ minikube start
 minikube stop
 
 # Eliminar cluster
-minikube delete - p nombre-cluster
+minikube delete - p <nombre-cluster>
 
 # Verificar estado de Minikube
 minikube status
@@ -88,18 +88,18 @@ kubectl config use-context minikube
 
 ```bash
 # Crear cluster con múltiples nodos
-minikube start --nodes 3 --kubernetes-version=latest  # Crear cluster con 3 nodos
+minikube start --nodes 3 -p <nombre-cluster>               # Crear cluster con 3 nodos
 
 # Gestión de nodos
-minikube node add                                     # Agregar un nodo adicional
-minikube node list                                   # Listar todos los nodos
-minikube node delete nombre-cluster                     # Eliminar un nodo específico
+minikube node add -p <nombre-cluster>                      # Agregar un nodo adicional
+minikube node list -p <nombre-cluster>                     # Listar todos los nodos
+minikube node delete -p <nombre-cluster>                   # Eliminar un nodo específico
 
 # Configuración de recursos por nodo
-minikube start --nodes 2 --cpus=2 --memory=2048mb    # 2 nodos con 2 CPUs y 2GB RAM cada uno
+minikube start --nodes 2 --cpus=2 --memory=2048mb          # 2 nodos con 2 CPUs y 2GB RAM cada uno
 
 # Acceder a un nodo específico
-minikube ssh --node nombre-cluster                      # SSH a un nodo específico
-minikube node start nombre-cluster                      # Iniciar un nodo específico
-minikube node stop nombre-cluster                       # Detener un nodo específico
+minikube ssh --node <nombre-cluster>                       # SSH a un nodo específico
+minikube node start <nombre-cluster>                       # Iniciar un nodo específico
+minikube node stop <nombre-cluster>                        # Detener un nodo específico
 ```

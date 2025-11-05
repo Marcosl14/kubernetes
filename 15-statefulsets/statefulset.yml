@@ -1,0 +1,60 @@
+# StatefulSets are used to manage stateful applications, like databases.
+# The difference between a Deployment and a StatefulSet is that StatefulSets
+# provide guarantees about the ordering and uniqueness of Pods.
+# Pods in a StatefulSet have a unique, stable network identity and persistent storage (they don't share storage with other Pods).
+
+# Kubernetes manages the deployment and scaling of a set of Pods, and provides guarantees about the ordering and uniqueness of these Pods.
+# But the binding logic between replicas is managed by the mongo software itself (in this case).
+# After deploy we should get into one of the pods and initiate the replicaset doing:
+# kubectl exec -it mongo-0 -- bash
+# mongo
+# rs.initiate({_id: "rs0", version: 1, members: [ {_id: 0, host: "mongo-0.mongodb-svc:27017"}, {_id: 1, host: "mongo-1.mongodb-svc:27017"}, {_id: 2, host: "mongo-2.mongodb-svc:27017"} ] })
+# if everything is ok we should see the output of rs.status() showing the 3 members of the replicaset
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  serviceName: "mongodb-svc" # Headless service to manage network identity
+  replicas: 3
+  selector:
+    matchLabels:
+      app: db
+      name: mongodb
+  template:
+    metadata:
+      labels:
+        app: db
+        name: mongodb
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: mongo:3.6
+          command:
+            - mongod
+          args:
+            - --bind_ip=0.0.0.0
+            - --replSet=rs0 # Replica set name
+            - --dbpath=/data/db
+          livenessProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - db.adminCommand('ping')
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-persistent-storage
+      spec:
+        storageClassName: local-storage
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

@@ -24,7 +24,7 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOnce # Access mode for pod, it means, only one pod can read or write to this volume | ReadWriteMany | ReadOnlyMany
   hostPath:
     path: /data/postgres
     type: DirectoryOrCreate
