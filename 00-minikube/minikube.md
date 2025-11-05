@@ -82,6 +82,9 @@ minikube kubectl -- get services
 
 # Cambiar el contexto a Minikube
 kubectl config use-context minikube
+
+# Conocer los recursos disponibles en kubectl
+kubectl api-resources
 ```
 
 ## Gestión de Nodos Multi-cluster
