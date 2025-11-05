@@ -1,0 +1,19 @@
+# This cron job runs a simple command every minute
+# It creates a pod every single run
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: myjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: example
+              image: alpine
+              command: ["sh", "-c"]
+              args: ["echo Hello Kubernetes on date $(date)"]
+          restartPolicy: Never

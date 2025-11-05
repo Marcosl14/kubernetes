@@ -1,0 +1,37 @@
+# This YAML file defines a Pod with a readiness probe that checks if the Tomcat server is ready to accept traffic by checking the port 8080.
+# If the server is not ready, the readiness probe will fail, and Kubernetes will recreate the container.
+
+apiVersion: apps/v1 # i se usa apps/v1beta2 para versiones anteriores a 1.9.0
+kind: Deployment
+metadata:
+  name: tomcat-d
+  labels:
+    app: tomcat
+spec:
+  selector: # permite seleccionar un conjunto de objetos que cumplan las condicione
+    matchLabels:
+      app: tomcat
+  replicas: 3 # indica al controlador que ejecute 2 pods (Nota: el comentario indica '2', pero el valor es '3')
+  template: # Plantilla que define los containers
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+        - name: tomcat
+          image: apasoft/tomcat
+          command: ["sh", "-c", " sleep 40 && /opt/tomcat/bin/catalina.sh run"]
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 0
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

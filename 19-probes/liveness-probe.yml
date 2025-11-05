@@ -1,0 +1,31 @@
+# This YAML file defines a Pod with a liveness probe that checks for the existence of a specific file.
+# If the file is not found, the liveness probe will fail, and Kubernetes will restart the container.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-probe
+  labels:
+    app: liveness-probe
+spec:
+  containers:
+    - name: liveness-probe
+      image: ubuntu
+      args:
+        - /bin/bash
+        - -c
+        - mkdir /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+      livenessProbe:
+        exec:
+          command:
+            - ls
+            - /tmp/healthy
+        initialDelaySeconds: 5
+        periodSeconds: 5
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi

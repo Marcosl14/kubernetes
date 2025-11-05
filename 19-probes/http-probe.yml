@@ -1,0 +1,36 @@
+# Deployment executing a web server with an HTTP liveness probe.
+# The liveness probe checks the /sonda.html endpoint every 3 seconds, starting 3 seconds after the container starts.
+# If the endpoint is not reachable, the liveness probe will fail, and Kubernetes will restart the container.
+
+apiVersion: apps/v1 # i se usa apps/v1beta2 para versiones anteriores a 1.9.0
+kind: Deployment
+metadata:
+  name: web-d
+spec:
+  selector: # permite seleccionar un conjunto de objetos que cumplan las condicione
+    matchLabels:
+      app: web
+  replicas: 1 # indica al controlador que ejecute 2 pods (Nota: el comentario dice '2 pods', pero el valor es '1')
+  template: # Plantilla que define los containers
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: apache
+          image: apasoft/sonda-web:latest
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /sonda.html
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

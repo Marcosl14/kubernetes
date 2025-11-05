@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example-job
+spec:
+  completions: 3 # Number of successful completions required (like replicas in Deployment)
+  paralelism: 2 # Number of pods to run in parallel | if this is not set, or set to 1, only one pod will run at a time
+  backoffLimit: 4 # Number of retries before considering a Job as failed
+  activeDeadlineSeconds: 300 # Maximum time in seconds a job can run
+  template:
+    spec:
+      containers:
+        - name: example
+          image: alpine
+          command: ["sh", "-c"]
+          args: ["echo Hello Kubernetes on machine $(uname -n)"]
+      restartPolicy: Never

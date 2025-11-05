@@ -1,0 +1,28 @@
+# DaemonSet deploy a pod on all nodes
+# If I add a new node to the cluster, the DaemonSet will automatically deploy a pod on that node
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: log-collector
+  labels:
+    app: log-collector
+spec:
+  selector:
+    matchLabels:
+      app: log-collector
+  template:
+    metadata:
+      labels:
+        app: log-collector
+    spec:
+      containers:
+        - name: log-collector
+          image: logstash:8.4.1
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
